@@ -1,0 +1,24 @@
+{
+    "name": "larachimp/pine-annotations",
+    "description": "Easing annotations reading in Laravel 5",
+    "keywords": ["php", "Laravel5", "annotations", "reader"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Percy Mamedy",
+            "email": "percymamedy@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "doctrine/annotations": "~1.4",
+        "doctrine/cache": "^1.6",
+        "illuminate/support": "~5.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "~3.0",
+        "phpunit/phpunit": "~5.7"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
