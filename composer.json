@@ -19,6 +19,26 @@
         "orchestra/testbench": "~3.0",
         "phpunit/phpunit": "~5.7"
     },
+    "autoload": {
+        "psr-4": {
+            "LaraChimp\\PineAnnotations\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaraChimp\\PineAnnotations\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "LaraChimp\\PineAnnotations\\PineAnnotationsServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
