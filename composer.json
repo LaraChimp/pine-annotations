@@ -36,7 +36,10 @@
         "laravel": {
             "providers": [
                 "LaraChimp\\PineAnnotations\\PineAnnotationsServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "AnnotationsReader": "LaraChimp\\PineAnnotations\\Facades\\Reader"
+            }
         }
     },
     "minimum-stability": "dev",

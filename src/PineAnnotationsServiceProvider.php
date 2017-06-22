@@ -2,7 +2,6 @@
 
 namespace LaraChimp\PineAnnotations;
 
-use Illuminate\Foundation\Application;
 use Doctrine\Common\Annotations\Reader;
 use Illuminate\Support\ServiceProvider;
 use Doctrine\Common\Annotations\CachedReader;
@@ -20,26 +19,12 @@ class PineAnnotationsServiceProvider extends ServiceProvider
     protected $defer = true;
 
     /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-    }
-
-    /**
      * Register the application services.
      *
      * @return void
      */
     public function register()
     {
-        // Register Laravel Doctrine Cache annotations
-        // cache driver.
-        $this->registerDoctrineCacheDriver();
-
         // Register annotations reader.
         $this->registerReader();
     }
@@ -53,20 +38,7 @@ class PineAnnotationsServiceProvider extends ServiceProvider
     {
         return [
             AnnotationsReader::class,
-            LaravelCacheDriver::class,
         ];
-    }
-
-    /**
-     * Registers Doctrine Cache driver for Laravel.
-     *
-     * @return void
-     */
-    protected function registerDoctrineCacheDriver()
-    {
-        $this->app->bind(LaravelCacheDriver::class, function (Application $app) {
-            return new LaravelCacheDriver($app->make('cache'));
-        });
     }
 
     /**
@@ -76,17 +48,28 @@ class PineAnnotationsServiceProvider extends ServiceProvider
      */
     protected function registerReader()
     {
+        // Give a Cached Reader when our
+        // reader class needs
+        // a ReaderContract.
         $this->app->when(AnnotationsReader::class)
                   ->needs(Reader::class)
-                  ->give(function (Application $app) {
-                      // Give a Cached Reader when our
-                      // reader class needs
-                      // a ReaderContract.
-                      return new CachedReader(
-                          new AnnotationReader(),
-                          $app->make(LaravelCacheDriver::class),
-                          (bool) config('app.debug')
-                      );
+                  ->give(function () {
+                      return $this->createAndReturnCachedReader();
                   });
+    }
+
+    /**
+     * Creates and returns a cached reader for
+     * reading annotations.
+     *
+     * @return CachedReader
+     */
+    protected function createAndReturnCachedReader()
+    {
+        return new CachedReader(
+            new AnnotationReader(),
+            $this->app->make(LaravelCacheDriver::class),
+            (bool) config('app.debug')
+        );
     }
 }

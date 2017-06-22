@@ -25,6 +25,16 @@ class LaravelCacheDriver extends CacheProvider
     }
 
     /**
+     * Return Laravel Cache.
+     *
+     * @return LaravelCache
+     */
+    public function getCache()
+    {
+        return $this->cache;
+    }
+
+    /**
      * Fetches an entry from the cache.
      *
      * @param string $id The id of the cache entry to fetch.
