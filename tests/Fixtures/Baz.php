@@ -3,7 +3,7 @@
 namespace LaraChimp\PineAnnotations\Tests\Fixtures;
 
 /**
- * Class Baz
+ * Class Baz.
  *
  * @FooAnnotation(bar="Percy")
  */

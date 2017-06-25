@@ -36,7 +36,7 @@ class TestCacheDriver extends AbstractTestCase
         $baz = new Baz();
 
         // Read annotations on object.
-        /** @var Collection $annotations */
+        /* @var Collection $annotations */
         $this->app->make(AnnotationsReader::class)->read($baz);
 
         // Annotation is saved in Laravel's cache.
