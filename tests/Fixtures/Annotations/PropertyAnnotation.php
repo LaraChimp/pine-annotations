@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraChimp\PineAnnotations\Tests\Fixtures;
+namespace LaraChimp\PineAnnotations\Tests\Fixtures\Annotations;
 
 use Doctrine\Common\Annotations\Annotation\Target;
 use Doctrine\Common\Annotations\Annotation\Required;
@@ -9,9 +9,9 @@ use Doctrine\Common\Annotations\Annotation\Required;
  * Some annotation.
  *
  * @Annotation
- * @Target("CLASS")
+ * @Target("PROPERTY")
  */
-class FooAnnotation
+class PropertyAnnotation
 {
     /**
      * Some annotation property.

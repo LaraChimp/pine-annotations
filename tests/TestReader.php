@@ -4,8 +4,8 @@ namespace LaraChimp\PineAnnotations\Tests;
 
 use Illuminate\Support\Collection;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Baz;
-use LaraChimp\PineAnnotations\Tests\Fixtures\FooAnnotation;
 use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
+use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooAnnotation;
 
 class TestReader extends AbstractTestCase
 {
@@ -23,6 +23,8 @@ class TestReader extends AbstractTestCase
         // Read annotations on object.
         /** @var Collection $annotations */
         $annotations = $this->app->make(AnnotationsReader::class)->read($baz);
+
+        //dd($annotations);
 
         $this->assertInstanceOf(Collection::class, $annotations);
         $this->assertInstanceOf(FooAnnotation::class, $annotations->first());
