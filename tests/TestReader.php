@@ -4,8 +4,12 @@ namespace LaraChimp\PineAnnotations\Tests;
 
 use Illuminate\Support\Collection;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Baz;
+use LaraChimp\PineAnnotations\Tests\Fixtures\BazDouble;
 use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooAnnotation;
+use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyAnnotation;
+use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooDoubleAnnotation;
+use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyDoubleAnnotation;
 
 class TestReader extends AbstractTestCase
 {
@@ -15,19 +19,76 @@ class TestReader extends AbstractTestCase
      *
      * @return void
      */
-    public function testReadingAnnotationsForAClass()
+    public function testReadingAllAnnotationsForAClass()
     {
-        // Create new Baz.
-        $baz = new Baz();
-
-        // Read annotations on object.
+        // Read all class annotations on class.
         /** @var Collection $annotations */
-        $annotations = $this->app->make(AnnotationsReader::class)->read($baz);
-
-        //dd($annotations);
+        $annotations = $this->app->make(AnnotationsReader::class)
+                                 ->target('class')
+                                 ->read(Baz::class);
 
         $this->assertInstanceOf(Collection::class, $annotations);
         $this->assertInstanceOf(FooAnnotation::class, $annotations->first());
         $this->assertEquals('Percy', $annotations->first()->bar);
+    }
+
+    /**
+     * Test that for a class we are able to read the specific
+     * annotations for it.
+     *
+     * @return void
+     */
+    public function testReadingSpecificAnnotationForAClass()
+    {
+        // Read specific class annotations on class.
+        /** @var Collection $annotations */
+        $annotations = $this->app->make(AnnotationsReader::class)
+                                 ->target('class')
+                                 ->only(FooDoubleAnnotation::class)
+                                 ->read(BazDouble::class);
+
+        $this->assertInstanceOf(Collection::class, $annotations);
+        $this->assertEquals('Mamedy', $annotations['bar']);
+    }
+
+    /**
+     * Test that we are able to read all the properties annotations
+     * for the given class.
+     *
+     * @return void
+     */
+    public function testReadingAllPropertiesAnnotations()
+    {
+        // Read all property annotations on class.
+        /** @var Collection $annotations */
+        $annotations = $this->app->make(AnnotationsReader::class)
+                                 ->target('property', 'name')
+                                 ->read(Baz::class);
+
+        $this->assertInstanceOf(Collection::class, $annotations);
+
+        $this->assertInstanceOf(PropertyAnnotation::class, $annotations[0]);
+        $this->assertInstanceOf(PropertyDoubleAnnotation::class, $annotations[1]);
+
+        $this->assertEquals('Desire', $annotations[0]->bar);
+        $this->assertEquals('Jeffrey', $annotations[1]->bar);
+    }
+
+    /**
+     * Test that we can read single annotation for a property.
+     *
+     * @return void
+     */
+    public function testReadingSingleAnnotationOnProperty()
+    {
+        // Read all property annotations on class.
+        /** @var Collection $annotations */
+        $annotations = $this->app->make(AnnotationsReader::class)
+                                 ->target('property', 'text')
+                                 ->only(PropertyDoubleAnnotation::class)
+                                 ->read(Baz::class);
+
+        $this->assertInstanceOf(Collection::class, $annotations);
+        $this->assertEquals('Taylor', $annotations['bar']);
     }
 }

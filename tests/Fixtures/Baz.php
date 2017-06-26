@@ -4,6 +4,7 @@ namespace LaraChimp\PineAnnotations\Tests\Fixtures;
 
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooAnnotation;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyAnnotation;
+use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyDoubleAnnotation;
 
 /**
  * Class Baz.
@@ -15,11 +16,22 @@ class Baz
     /**
      * Name.
      *
-     * @PropertyAnnotation(bar="Mamedy")
+     * @PropertyAnnotation(bar="Desire")
+     * @PropertyDoubleAnnotation(bar="Jeffrey")
      *
      * @var string
      */
     protected $name = '';
+
+    /**
+     * Text.
+     *
+     * @PropertyAnnotation(bar="Hans")
+     * @PropertyDoubleAnnotation(bar="Taylor")
+     *
+     * @var string
+     */
+    protected $text = '';
 
     /**
      * Sets name.
