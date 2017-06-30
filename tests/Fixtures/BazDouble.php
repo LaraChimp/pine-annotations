@@ -6,12 +6,11 @@ use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooAnnotation;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooDoubleAnnotation;
 
 /**
- * Class BazDouble
+ * Class BazDouble.
  *
  * @FooAnnotation(bar="Percy")
  * @FooDoubleAnnotation(bar="Mamedy")
  */
 class BazDouble
 {
-
 }

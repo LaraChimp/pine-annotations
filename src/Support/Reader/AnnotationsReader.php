@@ -20,7 +20,7 @@ class AnnotationsReader
 
     /**
      * What target should we get from the reader.
-     * Values include 'class', 'method', 'property'
+     * Values include 'class', 'method', 'property'.
      *
      * @var string
      */
