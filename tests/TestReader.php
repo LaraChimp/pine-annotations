@@ -7,8 +7,10 @@ use LaraChimp\PineAnnotations\Tests\Fixtures\Baz;
 use LaraChimp\PineAnnotations\Tests\Fixtures\BazDouble;
 use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooAnnotation;
+use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\MethodAnnotation;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyAnnotation;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooDoubleAnnotation;
+use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\MethodDoubleAnnotation;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyDoubleAnnotation;
 
 class TestReader extends AbstractTestCase
@@ -65,6 +67,8 @@ class TestReader extends AbstractTestCase
                                  ->target('property', 'name')
                                  ->read(Baz::class);
 
+        dd($annotations);
+
         $this->assertInstanceOf(Collection::class, $annotations);
 
         $this->assertInstanceOf(PropertyAnnotation::class, $annotations[0]);
@@ -81,7 +85,7 @@ class TestReader extends AbstractTestCase
      */
     public function testReadingSingleAnnotationOnProperty()
     {
-        // Read all property annotations on class.
+        // Read specify property annotations on class.
         /** @var Collection $annotations */
         $annotations = $this->app->make(AnnotationsReader::class)
                                  ->target('property', 'text')
@@ -90,5 +94,47 @@ class TestReader extends AbstractTestCase
 
         $this->assertInstanceOf(Collection::class, $annotations);
         $this->assertEquals('Taylor', $annotations['bar']);
+    }
+
+    /**
+     * Test that we can read all annotations present on
+     * a method.
+     *
+     * @return void
+     */
+    public function testReadingAllAnnotationsOnMethod()
+    {
+        // Read all method annotations on class.
+        /** @var Collection $annotations */
+        $annotations = $this->app->make(AnnotationsReader::class)
+                                 ->target('method', 'someMethod')
+                                 ->read(Baz::class);
+
+        $this->assertInstanceOf(Collection::class, $annotations);
+
+        $this->assertInstanceOf(MethodAnnotation::class, $annotations[0]);
+        $this->assertInstanceOf(MethodDoubleAnnotation::class, $annotations[1]);
+
+        $this->assertEquals('Way', $annotations[0]->bar);
+        $this->assertEquals('Otwell', $annotations[1]->bar);
+    }
+
+    /**
+     * Test that we can read a specific annotation block
+     * on a method.
+     *
+     * @return void
+     */
+    public function testReadingSingleAnnotationOnMethod()
+    {
+        // Read specific method annotations on class.
+        /** @var Collection $annotations */
+        $annotations = $this->app->make(AnnotationsReader::class)
+                                 ->target('method', 'someMethod')
+                                 ->only(MethodDoubleAnnotation::class)
+                                 ->read(Baz::class);
+
+        $this->assertInstanceOf(Collection::class, $annotations);
+        $this->assertEquals('Otwell', $annotations['bar']);
     }
 }

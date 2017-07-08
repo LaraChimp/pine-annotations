@@ -46,13 +46,173 @@ You can also register the ```Reader``` alias which helps in reading object's ann
 ```php
 'aliases' => [
     ...
-    'Reader' => LaraChimp\PineAnnotations\Facades\Reader::class,
+    'AnnotationsReader' => LaraChimp\PineAnnotations\Facades\Reader::class,
 ]
 ```
 
-### Usage
+### The AnnotationsReader
 
-Coming soon !!
+To create an instance of the ```AnnotationsReader```, use the Laravel's IOC to either inject or create it via the 
+```app()``` method or ```App``` facade:
+
+```php
+<?php
+
+use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
+
+class MyService 
+{
+    /**
+     * AnnotationsReader instance.
+     * 
+     * @var AnnotationsReader
+     */
+    protected $annotationsReader;
+   
+    /**
+     * Constructor.
+     * 
+     * @var AnnotationsReader $annotationsReader
+     */
+    public function __construct(AnnotationsReader $annotationsReader) 
+    {
+        $this->annotationsReader = $annotationsReader;
+    }
+}
+```
+
+or:
+
+```php
+$annotationsReader = app(\LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader::class);
+```
+
+Alternatively can also use the ```AnnotationsReader``` facade ```LaraChimp\PineAnnotations\Facades\Reader::class``` for all
+annotations reading.
+
+### Reading all annotations of a class
+
+Consider the following class which is annotated with the ```FooAnnotation```:
+
+```php
+<?php
+
+/**
+ * Class Baz.
+ *
+ * @FooAnnotation(bar="Percy")
+ */
+class Baz
+{
+    //
+}
+```
+
+To read this class' annotations, simple create an instance of the ```AnnotationsReader``` with target as class:
+
+```php
+// Read all class annotations on class.
+$annotations = AnnotationsReader::target('class')->read(Baz::class);
+```
+
+The ```AnnotationsReader``` will return a ```Collection``` the class' annotations with their values filled in
+the correct attributes :
+
+```php
+Illuminate\Support\Collection {
+  #items: array:1 [
+    0 => LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooAnnotation {
+      +bar: "Percy"
+    }
+  ]
+}
+```
+
+> Note that all annotations are cached by default for convinience. Hence the AnnotationsReader does not have to parse doc blocks
+> each time it reads annotations from a target, which would be rather costly operation otherwise. The AnnotationsReader uses
+> the default cache which you define in your Laravel App.
+
+### Reading specific annotation of a class
+
+Consider the following class which is annotated with the ```FooAnnotation``` and ```FooDoubleAnnotation```:
+
+```php
+<?php
+
+/**
+ * Class Baz.
+ *
+ * @FooAnnotation(bar="Percy")
+ * @FooDoubleAnnotation(bar="Mamedy")
+ */
+class Baz
+{
+    //
+}
+```
+
+Now we may want to only parse or read the ```@FooDoubleAnnotation(bar="Mamedy")``` doc block. To do so, we can use the ```only()```
+method on our ```AnnotationsReader``` instance:
+
+```php
+// Read specific class annotations on class.
+$annotations = AnnotationsReader::target('class')->only(FooDoubleAnnotation::class)->read(Baz::class);
+```
+
+This will return ```Collection``` with the keys and values of the targetted annotation:
+
+```php
+Illuminate\Support\Collection {
+  #items: array:1 [
+    "bar" => "Mamedy"
+  ]
+}
+```
+
+### Reading all annotations of a property on a class
+
+Consider the following class with the given annotations blocks on the ```name``` property:
+
+```php
+<?php
+
+class Baz
+{
+    /**
+     * Name.
+     *
+     * @PropertyAnnotation(bar="Jeffrey")
+     * @PropertyDoubleAnnotation(bar="Way")
+     *
+     * @var string
+     */
+    protected $name = '';
+    
+    //
+}
+```
+
+To read the annotation of the ```name``` property, we will use the ```property``` target and the property name on the ```AnnotationsReader``` :
+
+```php
+// Read all class annotations on property.
+$annotations = AnnotationsReader::target('property', 'name')->read(Baz::class);
+```
+
+The result is a ```Collection``` with all Annotations objects and theirs properties values filled in:
+
+```php
+Illuminate\Support\Collection {
+  #items: array:2 [
+    0 => LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyAnnotation {
+      +bar: "Jeffrey"
+    }
+    1 => LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyDoubleAnnotation {
+      +bar: "Way"
+    }
+  ]
+}
+```
 
 ### Credits
 Big Thanks to all developers who worked hard to create something amazing!
