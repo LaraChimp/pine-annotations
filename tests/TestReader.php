@@ -67,8 +67,6 @@ class TestReader extends AbstractTestCase
                                  ->target('property', 'name')
                                  ->read(Baz::class);
 
-        dd($annotations);
-
         $this->assertInstanceOf(Collection::class, $annotations);
 
         $this->assertInstanceOf(PropertyAnnotation::class, $annotations[0]);

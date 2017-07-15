@@ -32,7 +32,8 @@ $ composer require larachimp/pine-annotations
 > thanks to Laravel auto package discovery feature.
 
 
-After installation all you need is to register the ```LaraChimp\PineAnnotations\PineAnnotationsServiceProvider``` in your `config/app.php` configuration file:
+After installation all you need is to register the ```LaraChimp\PineAnnotations\PineAnnotationsServiceProvider``` 
+in your `config/app.php` configuration file:
 
 ```php
 'providers' => [
@@ -108,20 +109,20 @@ class Baz
 }
 ```
 
-To read this class' annotations, simple create an instance of the ```AnnotationsReader``` with target as class:
+To read this class' annotations, simply create an instance of the ```AnnotationsReader``` with target as class :
 
 ```php
 // Read all class annotations on class.
 $annotations = AnnotationsReader::target('class')->read(Baz::class);
 ```
 
-The ```AnnotationsReader``` will return a ```Collection``` the class' annotations with their values filled in
+The ```AnnotationsReader``` will return a ```Collection``` of the class' annotations with their values filled in
 the correct attributes :
 
 ```php
 Illuminate\Support\Collection {
   #items: array:1 [
-    0 => LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooAnnotation {
+    0 => FooAnnotation {
       +bar: "Percy"
     }
   ]
@@ -132,9 +133,9 @@ Illuminate\Support\Collection {
 > each time it reads annotations from a target, which would be rather costly operation otherwise. The AnnotationsReader uses
 > the default cache which you define in your Laravel App.
 
-### Reading specific annotation of a class
+### Reading a specific annotation of a class
 
-Consider the following class which is annotated with the ```FooAnnotation``` and ```FooDoubleAnnotation```:
+Consider the following class which is annotated with the ```FooAnnotation``` and ```FooDoubleAnnotation``` :
 
 ```php
 <?php
@@ -152,7 +153,7 @@ class Baz
 ```
 
 Now we may want to only parse or read the ```@FooDoubleAnnotation(bar="Mamedy")``` doc block. To do so, we can use the ```only()```
-method on our ```AnnotationsReader``` instance:
+method on our ```AnnotationsReader``` instance. The ```only()``` method takes as a single argument the annotation's class name :
 
 ```php
 // Read specific class annotations on class.
@@ -192,24 +193,159 @@ class Baz
 }
 ```
 
-To read the annotation of the ```name``` property, we will use the ```property``` target and the property name on the ```AnnotationsReader``` :
+To read the annotations of the ```name``` property, we will use the target as ```property``` and the property's name 
+on the ```AnnotationsReader``` :
 
 ```php
 // Read all class annotations on property.
 $annotations = AnnotationsReader::target('property', 'name')->read(Baz::class);
 ```
 
-The result is a ```Collection``` with all Annotations objects and theirs properties values filled in:
+The result is a ```Collection``` with all Annotations objects and theirs properties values filled in :
 
 ```php
 Illuminate\Support\Collection {
   #items: array:2 [
-    0 => LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyAnnotation {
+    0 => PropertyAnnotation {
       +bar: "Jeffrey"
     }
-    1 => LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyDoubleAnnotation {
+    1 => PropertyDoubleAnnotation {
       +bar: "Way"
     }
+  ]
+}
+```
+
+### Reading specific annotation of a property on a class
+
+Consider the following class with the given annotations blocks on the ```name``` property:
+
+```php
+<?php
+
+class Baz
+{
+    /**
+     * Name.
+     *
+     * @PropertyAnnotation(bar="Jeffrey")
+     * @PropertyDoubleAnnotation(bar="Way")
+     *
+     * @var string
+     */
+    protected $name = '';
+    
+    //
+}
+```
+
+Now we may want to only parse or read the ```@PropertyDoubleAnnotation(bar="Way")``` doc block. To do so, we will use the target as ```property``` together
+with the property's name and the ```only()``` method on our ```AnnotationsReader``` instance. The ```only()``` method takes as a single argument 
+the annotation's class name :
+
+```php
+// Read all class annotations on property.
+$annotations = AnnotationsReader::target('property', 'name')->only(PropertyDoubleAnnotation::class)
+                                                            ->read(Baz::class);
+```
+
+This will return ```Collection``` with the keys and values of the targetted annotation:
+
+```php
+Illuminate\Support\Collection {
+  #items: array:1 [
+    "bar" => "Way"
+  ]
+}
+```
+
+### Reading all annotations of a method on a class
+
+Consider the following class with the given annotations blocks on the ```someMethod()``` method :
+
+```php
+<?php
+
+class Baz
+{  
+    /**
+     * Some method that does somethin.
+     *
+     * @MethodAnnotation(bar="Way")
+     * @MethodDoubleAnnotation(bar="Otwell")
+     *
+     * @return string
+     */
+     public function someMethod()
+     {
+        return 'I did something.';
+     }
+}
+```
+
+To read all the annotations of the ```someMethod()``` method, we will use target as ```method``` and the method's name 
+on our ```AnnotationsReader``` instance :
+
+```php
+// Read all class annotations on property.
+$annotations = AnnotationsReader::target('method', 'someMethod')->read(Baz::class);
+```
+
+The result is a ```Collection``` with all Annotations objects and theirs properties values filled in :
+
+```php
+Illuminate\Support\Collection {
+  #items: array:2 [
+    0 => MethodAnnotation {
+      +bar: "Way"
+    }
+    1 => MethodDoubleAnnotation {
+      +bar: "Otwell"
+    }
+  ]
+}
+```
+
+### Reading a specific annotation of a method on a class
+
+Consider the following class with the given annotations blocks on the ```someMethod()``` method :
+
+```php
+<?php
+
+class Baz
+{  
+    /**
+     * Some method that does somethin.
+     *
+     * @MethodAnnotation(bar="Way")
+     * @MethodDoubleAnnotation(bar="Otwell")
+     *
+     * @return string
+     */
+     public function someMethod()
+     {
+        return 'I did something.';
+     }
+}
+```
+
+Now we may want to only parse or read the ```@MethodDoubleAnnotation(bar="Otwell")``` doc block. To do so, we will use the target as ```method``` together
+with the method's name and the ```only()``` method on our ```AnnotationsReader``` instance. The ```only()``` method takes as a single argument 
+the annotation's class name :
+
+```php
+// Read all class annotations on property.
+$annotations = AnnotationsReader::target('method', 'someMethod')->only(MethodDoubleAnnotation::class)
+                                                                ->read(Baz::class);
+```
+
+This will return ```Collection``` with the keys and values of the targetted annotation:
+
+```php
+Illuminate\Support\Collection {
+  #items: array:1 [
+    "bar" => "Otwell"
   ]
 }
 ```
