@@ -1,0 +1,18 @@
+<?php
+
+namespace DummyNamespace;
+
+use Doctrine\Common\Annotations\Annotation\Target;
+
+/**
+ * DummyClass annotation.
+ *
+ * @Annotation
+ * @Target("ALL")
+ */
+class DummyClass
+{
+    //
+}
+
+

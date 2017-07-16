@@ -27,6 +27,8 @@ class PineAnnotationsServiceProvider extends ServiceProvider
     {
         // Register annotations reader.
         $this->registerReader();
+        // Register commands.
+        $this->registerCommands();
     }
 
     /**
@@ -71,5 +73,21 @@ class PineAnnotationsServiceProvider extends ServiceProvider
             $this->app->make(LaravelCacheDriver::class),
             (bool) config('app.debug')
         );
+    }
+
+    /**
+     * Registers PineAnnotations Commands.
+     *
+     * @return void
+     */
+    protected function registerCommands()
+    {
+        // Make sure we are running in console
+        // then we registers commands.
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\MakeAnnotationCommand::class,
+            ]);
+        }
     }
 }
