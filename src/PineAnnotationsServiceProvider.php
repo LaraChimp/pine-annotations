@@ -2,21 +2,28 @@
 
 namespace LaraChimp\PineAnnotations;
 
+use Symfony\Component\Finder\Finder;
 use Doctrine\Common\Annotations\Reader;
 use Illuminate\Support\ServiceProvider;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
 use LaraChimp\PineAnnotations\Doctrine\Cache\LaravelCacheDriver;
 
 class PineAnnotationsServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
+     * Perform post-registration booting of services.
      *
-     * @var bool
+     * @return void
      */
-    protected $defer = true;
+    public function boot()
+    {
+        $this->publishes([
+            __DIR__.'/../config/pine-annotations.php' => config_path('pine-annotations.php'),
+        ]);
+    }
 
     /**
      * Register the application services.
@@ -25,20 +32,19 @@ class PineAnnotationsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Merge Configs.
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/pine-annotations.php', 'pine-annotations'
+        );
+
         // Register annotations reader.
         $this->registerReader();
-    }
 
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            AnnotationsReader::class,
-        ];
+        // Register commands.
+        $this->registerCommands();
+
+        // Register annotations Registry.
+        $this->registerAnnotationsRegistry();
     }
 
     /**
@@ -71,5 +77,54 @@ class PineAnnotationsServiceProvider extends ServiceProvider
             $this->app->make(LaravelCacheDriver::class),
             (bool) config('app.debug')
         );
+    }
+
+    /**
+     * Registers PineAnnotations Commands.
+     *
+     * @return void
+     */
+    protected function registerCommands()
+    {
+        // Make sure we are running in console
+        // then we registers commands.
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\MakeAnnotationCommand::class,
+            ]);
+        }
+    }
+
+    /**
+     * Register autoload files and namespaces used
+     * to load annotations from.
+     *
+     * @return void
+     */
+    protected function registerAnnotationsRegistry()
+    {
+        // Register files autoload.
+        collect(config('pine-annotations.autoload_files'))->each(function ($filePath) {
+            $this->registerFileAnnotation($filePath);
+        });
+
+        // Register namespaces autoload.
+        collect(config('pine-annotations.autoload_namespaces'))->each(function ($dirs) {
+            foreach (Finder::create()->files()->name('*.php')->in($dirs) as $file) {
+                $this->registerFileAnnotation($file->getRealPath());
+            }
+        });
+    }
+
+    /**
+     * Registers a file in th Annotation registry.
+     *
+     * @param string $filePath
+     *
+     * @return void
+     */
+    protected function registerFileAnnotation($filePath)
+    {
+        AnnotationRegistry::registerFile($filePath);
     }
 }
