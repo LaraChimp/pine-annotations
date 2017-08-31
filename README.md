@@ -51,6 +51,44 @@ You can also register the ```Reader``` alias which helps in reading object's ann
 ]
 ```
 
+You can now publish config using the command:
+
+```bash
+$ php artisan vendor:publish
+```
+
+This will create the file ```pine-annotations.php``` in your config directory.
+
+### Registering your annotations in the AnnotationRegistry
+
+The config file ```pine-annotations.php``` has two sections ```autoload_files``` and ```autoload_namespaces```.
+
+#### autoload_files
+
+```php
+'autoload_files' => [
+    // 
+],
+```
+
+In this array you may include the file paths of all your annotations classes. These will get registered in the ```AnnotationRegistry```. You
+can include as many files as you need.
+
+#### autoload_namespaces
+
+```php
+'autoload_namespaces' => [
+    'App\Annotations' => app_path('Annotations'),
+],
+```
+
+This array contains the namespaces and paths of your annotations classes. This is useful if you want to register all annotations classes 
+of a whole namespace in a single go. 
+
+> It is imperative that you register either one of those arrays 
+> when creating your annotations classes.
+> Otherwise AnnotationsReader won't be able to parse them. 
+
 ### The AnnotationsReader
 
 To create an instance of the ```AnnotationsReader```, use the Laravel's IOC to either inject or create it via the 
