@@ -29,6 +29,6 @@ return [
     */
 
     'autoload_namespaces' => [
-        'App\Annotations' => app_path('Annotations'),
+        // 'App\Annotations' => app_path('Annotations'),
     ],
 ];
