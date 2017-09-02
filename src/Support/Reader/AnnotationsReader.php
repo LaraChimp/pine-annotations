@@ -7,10 +7,15 @@ use ReflectionMethod;
 use ReflectionProperty;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Symfony\Component\Finder\Finder;
 use Doctrine\Common\Annotations\Reader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use LaraChimp\PineAnnotations\Concerns\NamespaceToPathConvertable;
 
 class AnnotationsReader
 {
+    use NamespaceToPathConvertable;
+
     /**
      * The Reader instance.
      *
@@ -110,6 +115,48 @@ class AnnotationsReader
 
         // We require to read all annotations.
         return $this->readAllAnnotationsFor($reflection);
+    }
+
+    /**
+     * Adds files containing annotations to the registry.
+     *
+     * @param array|string $filePaths
+     *
+     * @return self
+     */
+    public function addFilesToRegistry($filePaths)
+    {
+        collect((array) $filePaths)->each(function ($filePath) {
+            if (file_exists($filePath)) {
+                AnnotationRegistry::registerFile($filePath);
+            }
+        });
+
+        return $this;
+    }
+
+    /**
+     * Adds namespaces containing annotations to the registry.
+     *
+     * @param array|string $namespaces
+     *
+     * @return $this
+     */
+    public function addNamespacesToRegistry($namespaces)
+    {
+        collect((array) $namespaces)->each(function ($namespace) {
+            // Get path from namespace.
+            $path = $this->getPathFromNamespace($namespace);
+
+            if (file_exists($path)) {
+                // Register each annotations file found in the namespace.
+                foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
+                    $this->addFilesToRegistry($file->getRealPath());
+                }
+            }
+        });
+
+        return $this;
     }
 
     /**

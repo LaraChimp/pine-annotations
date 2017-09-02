@@ -67,7 +67,7 @@ The config file ```pine-annotations.php``` has two sections ```autoload_files```
 
 ```php
 'autoload_files' => [
-    // 
+    app_path('Annotations/FooAnnotation.php'),
 ],
 ```
 
@@ -78,15 +78,29 @@ can include as many files as you need.
 
 ```php
 'autoload_namespaces' => [
-    'App\Annotations' => app_path('Annotations'),
+    'App\Annotations',
 ],
 ```
 
-This array contains the namespaces and paths of your annotations classes. This is useful if you want to register all annotations classes 
+This array contains the namespaces of your annotations classes. This is useful if you want to register all annotations classes 
 of a whole namespace in a single go. 
 
-> It is imperative that you register either one of those arrays 
-> when creating your annotations classes.
+#### Using the Reader to manually add entries to the Registry.
+
+Alternatively you may use the methods ```addFilesToRegistry()``` and ```addNamespacesToRegistry()``` to perform manual entries of
+files and namespaces to the annotation registry. 
+
+```php
+// Adding files manually to the Registry.
+AnnotationsReader::addFilesToRegistry($filesPaths);
+```
+
+```php
+// Adding namespaces manually to the Registry.
+AnnotationsReader::addNamespacesToRegistry($namespaces);
+```
+
+> It is imperative that you register your annotations classes in one way or the other with the Reader.
 > Otherwise AnnotationsReader won't be able to parse them. 
 
 ### The AnnotationsReader

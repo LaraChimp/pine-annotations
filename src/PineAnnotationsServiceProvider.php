@@ -2,12 +2,10 @@
 
 namespace LaraChimp\PineAnnotations;
 
-use Symfony\Component\Finder\Finder;
 use Doctrine\Common\Annotations\Reader;
 use Illuminate\Support\ServiceProvider;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
 use LaraChimp\PineAnnotations\Doctrine\Cache\LaravelCacheDriver;
 
@@ -103,28 +101,13 @@ class PineAnnotationsServiceProvider extends ServiceProvider
      */
     protected function registerAnnotationsRegistry()
     {
+        // Creates annotation Reader.
+        $reader = $this->app->make(AnnotationsReader::class);
+
         // Register files autoload.
-        collect(config('pine-annotations.autoload_files'))->each(function ($filePath) {
-            $this->registerFileAnnotation($filePath);
-        });
+        $reader->addFilesToRegistry(config('pine-annotations.autoload_files'));
 
         // Register namespaces autoload.
-        collect(config('pine-annotations.autoload_namespaces'))->each(function ($dirs) {
-            foreach (Finder::create()->files()->name('*.php')->in($dirs) as $file) {
-                $this->registerFileAnnotation($file->getRealPath());
-            }
-        });
-    }
-
-    /**
-     * Registers a file in th Annotation registry.
-     *
-     * @param string $filePath
-     *
-     * @return void
-     */
-    protected function registerFileAnnotation($filePath)
-    {
-        AnnotationRegistry::registerFile($filePath);
+        $reader->addNamespacesToRegistry(config('pine-annotations.autoload_namespaces'));
     }
 }

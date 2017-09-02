@@ -14,7 +14,7 @@ return [
     */
 
     'autoload_files' => [
-        // app_path('Annotations/FooAnnotation.php')
+        app_path('Annotations/FooAnnotation.php'),
     ],
 
     /*
@@ -29,6 +29,6 @@ return [
     */
 
     'autoload_namespaces' => [
-        // 'App\Annotations' => app_path('Annotations'),
+        'App\Annotations',
     ],
 ];
