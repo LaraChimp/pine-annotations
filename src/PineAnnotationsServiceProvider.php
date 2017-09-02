@@ -21,6 +21,8 @@ class PineAnnotationsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/pine-annotations.php' => config_path('pine-annotations.php'),
         ]);
+
+        $this->addAnnotationsToRegistry();
     }
 
     /**
@@ -40,9 +42,6 @@ class PineAnnotationsServiceProvider extends ServiceProvider
 
         // Register commands.
         $this->registerCommands();
-
-        // Register annotations Registry.
-        $this->registerAnnotationsRegistry();
     }
 
     /**
@@ -94,12 +93,11 @@ class PineAnnotationsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register autoload files and namespaces used
-     * to load annotations from.
+     * Add files and namespaces to the annotations registry.
      *
      * @return void
      */
-    protected function registerAnnotationsRegistry()
+    protected function addAnnotationsToRegistry()
     {
         // Creates annotation Reader.
         $reader = $this->app->make(AnnotationsReader::class);
