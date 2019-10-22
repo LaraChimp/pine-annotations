@@ -202,7 +202,7 @@ class AnnotationsReader
     protected function getReflectionFrom($argument)
     {
         // Method name to use.
-        $reflectionMethodName = Str::camel('getreflection'.$this->target.'from');
+        $reflectionMethodName = Str::camel('get_reflection_'.$this->target.'_from');
 
         // Return Reflection
         return $this->{$reflectionMethodName}($argument);
@@ -214,6 +214,7 @@ class AnnotationsReader
      * @param mixed $argument
      *
      * @return ReflectionClass
+     * @throws \ReflectionException
      */
     protected function getReflectionClassFrom($argument)
     {
@@ -231,9 +232,10 @@ class AnnotationsReader
      *
      * @param mixed $argument
      *
-     * @throws InvalidArgumentException
-     *
      * @return ReflectionProperty
+     *
+     * @throws InvalidArgumentException
+     * @throws \ReflectionException
      */
     protected function getReflectionPropertyFrom($argument)
     {
@@ -257,6 +259,8 @@ class AnnotationsReader
      * @param mixed $argument
      *
      * @return ReflectionMethod
+     *
+     * @throws \ReflectionException
      */
     protected function getReflectionMethodFrom($argument)
     {
@@ -290,7 +294,7 @@ class AnnotationsReader
             $endsWith = 'annotation';
         }
 
-        return Str::camel('get'.$this->target.$endsWith);
+        return Str::camel('get_'.$this->target.'_'.$endsWith);
     }
 
     /**
