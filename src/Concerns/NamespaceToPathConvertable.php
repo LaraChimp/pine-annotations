@@ -2,12 +2,8 @@
 
 namespace LaraChimp\PineAnnotations\Concerns;
 
-use Illuminate\Console\DetectsApplicationNamespace;
-
 trait NamespaceToPathConvertable
 {
-    use DetectsApplicationNamespace;
-
     /**
      * Convert the given namespace to a file path.
      *
@@ -28,5 +24,15 @@ trait NamespaceToPathConvertable
 
         // trim and return the path
         return ($base ?: app_path()).'/'.$path;
+    }
+
+    /**
+     * Get the application namespace.
+     *
+     * @return string
+     */
+    protected function getAppNamespace()
+    {
+        return app()->getNamespace();
     }
 }
