@@ -21,6 +21,14 @@ project, but tries to simplify its integration with Laravel 5.
 ## License
 Pine Annotations is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
+## Version Compatibility
+
+ Laravel  | Pine Annotations
+:---------|:-----------------
+ 5.x.x    | 0.x
+ 6.x      | 1.x
+ 7.x      | 2.x
+
 ### Installation
 
 ```bash

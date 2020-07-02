@@ -2,8 +2,8 @@
 
 namespace LaraChimp\PineAnnotations\Tests\Fixtures\Annotations;
 
-use Doctrine\Common\Annotations\Annotation\Target;
 use Doctrine\Common\Annotations\Annotation\Required;
+use Doctrine\Common\Annotations\Annotation\Target;
 
 /**
  * Some annotation.

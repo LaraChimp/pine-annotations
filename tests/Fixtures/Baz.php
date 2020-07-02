@@ -4,8 +4,8 @@ namespace LaraChimp\PineAnnotations\Tests\Fixtures;
 
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooAnnotation;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\MethodAnnotation;
-use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyAnnotation;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\MethodDoubleAnnotation;
+use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyAnnotation;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyDoubleAnnotation;
 
 /**

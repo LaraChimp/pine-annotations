@@ -3,15 +3,15 @@
 namespace LaraChimp\PineAnnotations\Tests;
 
 use Illuminate\Support\Collection;
-use LaraChimp\PineAnnotations\Tests\Fixtures\Baz;
-use LaraChimp\PineAnnotations\Tests\Fixtures\BazDouble;
 use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooAnnotation;
-use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\MethodAnnotation;
-use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyAnnotation;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\FooDoubleAnnotation;
+use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\MethodAnnotation;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\MethodDoubleAnnotation;
+use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyAnnotation;
 use LaraChimp\PineAnnotations\Tests\Fixtures\Annotations\PropertyDoubleAnnotation;
+use LaraChimp\PineAnnotations\Tests\Fixtures\Baz;
+use LaraChimp\PineAnnotations\Tests\Fixtures\BazDouble;
 
 class TestReader extends AbstractTestCase
 {

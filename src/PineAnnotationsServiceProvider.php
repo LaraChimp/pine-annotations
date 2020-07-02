@@ -2,12 +2,12 @@
 
 namespace LaraChimp\PineAnnotations;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\Reader;
 use Illuminate\Support\ServiceProvider;
-use Doctrine\Common\Annotations\CachedReader;
-use Doctrine\Common\Annotations\AnnotationReader;
-use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
 use LaraChimp\PineAnnotations\Doctrine\Cache\LaravelCacheDriver;
+use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
 
 class PineAnnotationsServiceProvider extends ServiceProvider
 {
@@ -15,6 +15,8 @@ class PineAnnotationsServiceProvider extends ServiceProvider
      * Perform post-registration booting of services.
      *
      * @return void
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function boot()
     {
@@ -66,6 +68,9 @@ class PineAnnotationsServiceProvider extends ServiceProvider
      * reading annotations.
      *
      * @return CachedReader
+     *
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function createAndReturnCachedReader()
     {
@@ -96,6 +101,8 @@ class PineAnnotationsServiceProvider extends ServiceProvider
      * Add files and namespaces to the annotations registry.
      *
      * @return void
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function addAnnotationsToRegistry()
     {

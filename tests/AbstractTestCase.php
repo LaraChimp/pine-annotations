@@ -2,8 +2,8 @@
 
 namespace LaraChimp\PineAnnotations\Tests;
 
-use Orchestra\Testbench\TestCase;
 use LaraChimp\PineAnnotations\PineAnnotationsServiceProvider;
+use Orchestra\Testbench\TestCase;
 
 abstract class AbstractTestCase extends TestCase
 {
