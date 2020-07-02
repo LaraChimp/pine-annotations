@@ -4,9 +4,9 @@ namespace LaraChimp\PineAnnotations\Tests;
 
 use Illuminate\Cache\CacheManager;
 use Illuminate\Support\Collection;
-use LaraChimp\PineAnnotations\Tests\Fixtures\Baz;
-use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
 use LaraChimp\PineAnnotations\Doctrine\Cache\LaravelCacheDriver;
+use LaraChimp\PineAnnotations\Support\Reader\AnnotationsReader;
+use LaraChimp\PineAnnotations\Tests\Fixtures\Baz;
 
 class TestCacheDriver extends AbstractTestCase
 {

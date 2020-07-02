@@ -2,15 +2,15 @@
 
 namespace LaraChimp\PineAnnotations\Support\Reader;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Common\Annotations\Reader;
+use Illuminate\Support\Str;
+use InvalidArgumentException;
+use LaraChimp\PineAnnotations\Concerns\NamespaceToPathConvertable;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
-use Illuminate\Support\Str;
-use InvalidArgumentException;
 use Symfony\Component\Finder\Finder;
-use Doctrine\Common\Annotations\Reader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use LaraChimp\PineAnnotations\Concerns\NamespaceToPathConvertable;
 
 class AnnotationsReader
 {
