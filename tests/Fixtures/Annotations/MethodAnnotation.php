@@ -17,6 +17,7 @@ class MethodAnnotation
      * Some annotation property.
      *
      * @Required
+     *
      * @var string
      */
     public $bar;

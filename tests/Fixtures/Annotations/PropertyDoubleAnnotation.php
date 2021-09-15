@@ -17,6 +17,7 @@ class PropertyDoubleAnnotation
      * Some annotation property.
      *
      * @Required
+     *
      * @var string
      */
     public $bar;

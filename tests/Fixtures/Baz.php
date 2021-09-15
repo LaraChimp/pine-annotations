@@ -51,8 +51,7 @@ class Baz
     /**
      * Sets name.
      *
-     * @param string $name
-     *
+     * @param  string  $name
      * @return self
      */
     public function setName($name)
