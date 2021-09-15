@@ -17,6 +17,7 @@ class MethodDoubleAnnotation
      * Some annotation property.
      *
      * @Required
+     *
      * @var string
      */
     public $bar;

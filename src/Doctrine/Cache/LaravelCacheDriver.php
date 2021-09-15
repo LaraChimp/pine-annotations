@@ -17,7 +17,7 @@ class LaravelCacheDriver extends CacheProvider
     /**
      * LaravelCacheDriver constructor.
      *
-     * @param LaravelCache $cache
+     * @param  LaravelCache  $cache
      */
     public function __construct(LaravelCache $cache)
     {
@@ -37,8 +37,7 @@ class LaravelCacheDriver extends CacheProvider
     /**
      * Fetches an entry from the cache.
      *
-     * @param string $id The id of the cache entry to fetch.
-     *
+     * @param  string  $id  The id of the cache entry to fetch.
      * @return mixed|false The cached data or FALSE, if no cache entry exists for the given id.
      */
     protected function doFetch($id)
@@ -49,8 +48,7 @@ class LaravelCacheDriver extends CacheProvider
     /**
      * Tests if an entry exists in the cache.
      *
-     * @param string $id The cache id of the entry to check for.
-     *
+     * @param  string  $id  The cache id of the entry to check for.
      * @return bool TRUE if a cache entry exists for the given cache id, FALSE otherwise.
      */
     protected function doContains($id)
@@ -61,11 +59,10 @@ class LaravelCacheDriver extends CacheProvider
     /**
      * Puts data into the cache.
      *
-     * @param string $id         The cache id.
-     * @param string $data       The cache entry/data.
-     * @param int    $lifeTime   The lifetime. If != 0, sets a specific lifetime for this
-     *                           cache entry (0 => infinite lifeTime).
-     *
+     * @param  string  $id  The cache id.
+     * @param  string  $data  The cache entry/data.
+     * @param  int  $lifeTime  The lifetime. If != 0, sets a specific lifetime for this
+     *                         cache entry (0 => infinite lifeTime).
      * @return bool TRUE if the entry was successfully stored in the cache, FALSE otherwise.
      */
     protected function doSave($id, $data, $lifeTime = 0)
@@ -84,8 +81,7 @@ class LaravelCacheDriver extends CacheProvider
     /**
      * Deletes a cache entry.
      *
-     * @param string $id The cache id.
-     *
+     * @param  string  $id  The cache id.
      * @return bool TRUE if the cache entry was successfully deleted, FALSE otherwise.
      */
     protected function doDelete($id)

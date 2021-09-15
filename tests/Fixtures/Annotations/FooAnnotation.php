@@ -17,6 +17,7 @@ class FooAnnotation
      * Some annotation property.
      *
      * @Required
+     *
      * @var string
      */
     public $bar;

@@ -7,9 +7,8 @@ trait NamespaceToPathConvertable
     /**
      * Convert the given namespace to a file path.
      *
-     * @param string $namespace
-     * @param string $base
-     *
+     * @param  string  $namespace
+     * @param  string  $base
      * @return string
      */
     public function getPathFromNamespace($namespace, $base = null)

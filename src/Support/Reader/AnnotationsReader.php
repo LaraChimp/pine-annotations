@@ -48,7 +48,7 @@ class AnnotationsReader
     /**
      * Reader constructor.
      *
-     * @param Reader $reader
+     * @param  Reader  $reader
      */
     public function __construct(Reader $reader)
     {
@@ -69,9 +69,8 @@ class AnnotationsReader
      * Which type of annotation should the reader target.
      * The default is class.
      *
-     * @param string $target
-     * @param string $keyName
-     *
+     * @param  string  $target
+     * @param  string  $keyName
      * @return self
      */
     public function target($target, $keyName = null)
@@ -85,8 +84,7 @@ class AnnotationsReader
     /**
      * The annotation name if any to target.
      *
-     * @param string $annotationName
-     *
+     * @param  string  $annotationName
      * @return $this
      */
     public function only($annotationName)
@@ -99,8 +97,7 @@ class AnnotationsReader
     /**
      * Reads annotations for a given object.
      *
-     * @param mixed $argument
-     *
+     * @param  mixed  $argument
      * @return \Illuminate\Support\Collection
      */
     public function read($argument)
@@ -120,8 +117,7 @@ class AnnotationsReader
     /**
      * Adds files containing annotations to the registry.
      *
-     * @param array|string $filePaths
-     *
+     * @param  array|string  $filePaths
      * @return self
      */
     public function addFilesToRegistry($filePaths)
@@ -138,8 +134,7 @@ class AnnotationsReader
     /**
      * Adds namespaces containing annotations to the registry.
      *
-     * @param array|string $namespaces
-     *
+     * @param  array|string  $namespaces
      * @return $this
      */
     public function addNamespacesToRegistry($namespaces)
@@ -162,8 +157,7 @@ class AnnotationsReader
     /**
      * Reads all the annotations for the given target.
      *
-     * @param ReflectionClass|ReflectionProperty|ReflectionMethod $reflection
-     *
+     * @param  ReflectionClass|ReflectionProperty|ReflectionMethod  $reflection
      * @return \Illuminate\Support\Collection
      */
     protected function readAllAnnotationsFor($reflection)
@@ -178,8 +172,7 @@ class AnnotationsReader
     /**
      * Reads the specified annotation name given for the target.
      *
-     * @param ReflectionClass|ReflectionProperty|ReflectionMethod $reflection
-     *
+     * @param  ReflectionClass|ReflectionProperty|ReflectionMethod  $reflection
      * @return \Illuminate\Support\Collection
      */
     protected function readSpecificAnnotationFor($reflection)
@@ -195,8 +188,7 @@ class AnnotationsReader
      * Get the ReflectionClass from an argument.
      * be it an object or a class name.
      *
-     * @param mixed $argument
-     *
+     * @param  mixed  $argument
      * @return ReflectionClass|ReflectionMethod|ReflectionProperty
      */
     protected function getReflectionFrom($argument)
@@ -211,9 +203,9 @@ class AnnotationsReader
     /**
      * Get the ReflectionClass for a given argument.
      *
-     * @param mixed $argument
-     *
+     * @param  mixed  $argument
      * @return ReflectionClass
+     *
      * @throws \ReflectionException
      */
     protected function getReflectionClassFrom($argument)
@@ -230,8 +222,7 @@ class AnnotationsReader
     /**
      * Get the ReflectionProperty for a given argument.
      *
-     * @param mixed $argument
-     *
+     * @param  mixed  $argument
      * @return ReflectionProperty
      *
      * @throws InvalidArgumentException
@@ -256,8 +247,7 @@ class AnnotationsReader
     /**
      * Get the ReflectionMethod for a given argument.
      *
-     * @param mixed $argument
-     *
+     * @param  mixed  $argument
      * @return ReflectionMethod
      *
      * @throws \ReflectionException
