@@ -28,6 +28,7 @@ Pine Annotations is open-sourced software licensed under the [MIT license](http:
  5.x.x    | 0.x
  6.x      | 1.x
  7.x      | 2.x
+ 8.x      | 3.x
 
 ### Installation
 
